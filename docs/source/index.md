@@ -1,9 +1,7 @@
-Welcome to SerializeLib's documentation!
-===================================
+# Welcome to SerializeLib's documentation!
 SerializeLib is a library for serializing and deserializing C# objects.
 
-Contents
---------
+## Contents
 
 ```{toctree}
 
