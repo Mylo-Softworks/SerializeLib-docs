@@ -1,0 +1,35 @@
+# Serializable objects
+
+There are two ways to define a class as serializable. The `[SerializeClass]` attribute and the `ISerializable` interface.
+
+## Attributes
+The attributes [SerializeClass] and [SerializeField] are used to mark fields and classes as serializable. Automatic serialization will be attempted.
+
+```csharp
+[SerializeClass]
+public class SerializableClass
+{
+    [SerializeField] public bool ExampleBool;
+    [SerializeField] public string ExampleString;
+}
+```
+
+## ISerializable interface
+The ISerializable interface can be implemented to serialize manually.
+```csharp
+public class SerializableClass : ISerializableClass<ManualSerializeClass> {
+    public int Number = 0;
+    
+    public void Serialize(Stream s)
+    {
+        Serializer.SerializeValue(Number, s); // Generic, so type is auto-detected here
+    }
+
+    public ManualSerializeClass Deserialize(Stream s)
+    {
+        Number = Serializer.DeserializeValue<int>(s); // Generic, type is specified here
+        
+        return this;
+    }
+}
+```
