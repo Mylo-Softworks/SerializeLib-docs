@@ -1,6 +1,6 @@
 # Serializable objects
 
-There are two ways to define a class as serializable. The `[SerializeClass]` attribute and the `ISerializable` interface.
+There are three ways to define a class as serializable. The `[SerializeClass]` attribute, the `ISerializable` interface, and the `ISerializeOverride` interface.
 
 ## Attributes
 The attributes [SerializeClass] and [SerializeField] are used to mark fields and classes as serializable. Automatic serialization will be attempted.
@@ -32,4 +32,37 @@ public class SerializableClass : ISerializableClass<ManualSerializeClass> {
         return this;
     }
 }
+```
+
+## ISerializableOverride interface
+The ISerializableOverride interface allows you to add serialization to predefined classes.  
+Example: Making `Guid` serializable.
+
+Define the class:
+```csharp
+public class GuidSerializeOverride : ISerializableOverride<Guid>
+{
+    private int size = 16;
+    
+    public void Serialize(Guid target, Stream s)
+    {
+        s.Write(target.ToByteArray());
+    }
+
+    public Guid Deserialize(Stream s)
+    {
+        var buffer = new byte[size];
+        s.Read(buffer, 0, buffer.Length);
+        return new Guid(buffer);
+    }
+}
+```
+
+Register the override (pick your preferred option):
+```csharp
+// Generic
+Serializer.RegisterOverride<GuidSerializeOverride, Guid>();
+
+// With instance
+Serializer.RegisterOverride(new GuidSerializeOverride());
 ```

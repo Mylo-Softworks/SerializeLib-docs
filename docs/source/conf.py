@@ -6,7 +6,7 @@ project = 'SerializeLib'
 copyright = '2024, Mylo Softworks'
 author = 'Mylo Softworks'
 
-release = '1.0.5'
+release = '1.0.6'
 version = release
 
 # -- General configuration
