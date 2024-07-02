@@ -12,53 +12,59 @@ Serializing an object
 To a stream
 ===========
 
-.. code-block:: csharp
+.. tabs::
+    .. code-tab:: csharp
 
-    using SerializeLib;
+        using SerializeLib;
 
-    var stream = new MemoryStream();
-    Serializer.Serialize(exampleObject, stream);
+        var stream = new MemoryStream();
+        Serializer.Serialize(exampleObject, stream);
 
 To a byte[]
 ===========
-.. code-block:: csharp
+.. tabs::
+    .. code-tab:: csharp
 
-    using SerializeLib;
-    byte[] bytes = Serializer.Serialize(exampleObject);
+        using SerializeLib;
+        byte[] bytes = Serializer.Serialize(exampleObject);
 
 
 To a file
 =========
-.. code-block:: csharp
+.. tabs::
+    .. code-tab:: csharp
 
-    using SerializeLib;
-    Serialize.SerializeToFile(exampleObject, "filename.bin")
+        using SerializeLib;
+        Serialize.SerializeToFile(exampleObject, "filename.bin")
 
 
 Deserializing an object
 ***********************
 From a stream
 =============
-.. code-block:: csharp
+.. tabs::
+    .. code-tab:: csharp
 
-    using SerializeLib;
+        using SerializeLib;
 
-    var exampleObject = Serializer.Deserialize<SerializationExample>(stream);
+        var exampleObject = Serializer.Deserialize<SerializationExample>(stream);
 
 
 From a byte[]
 =============
-.. code-block:: csharp
+.. tabs::
+    .. code-tab:: csharp
 
-    using SerializeLib;
+        using SerializeLib;
 
-    var exampleObject = Serializer.Deserialize<SerializationExample>(bytes);
+        var exampleObject = Serializer.Deserialize<SerializationExample>(bytes);
 
 
 From a file
 ===========
-.. code-block:: csharp
+.. tabs::
+    .. code-tab:: csharp
 
-    using SerializeLib;
+        using SerializeLib;
 
-    var exampleObject = Serializer.DeserializeFromFile<SerializationExample>("filename.bin");
+        var exampleObject = Serializer.DeserializeFromFile<SerializationExample>("filename.bin");

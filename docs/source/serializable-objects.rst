@@ -8,14 +8,15 @@ Attributes
 
 The attributes `[SerializeClass]` and `[SerializeField]` are used to mark fields and classes as serializable. Automatic serialization will be attempted.
 
-.. code-block:: csharp
+.. tabs::
+    .. code-tab:: csharp
 
-    [SerializeClass]
-    public class SerializableClass
-    {
-        [SerializeField] public bool ExampleBool;
-        [SerializeField] public string ExampleString;
-    }
+        [SerializeClass]
+        public class SerializableClass
+        {
+            [SerializeField] public bool ExampleBool;
+            [SerializeField] public string ExampleString;
+        }
 
 
 ISerializable interface
@@ -23,23 +24,24 @@ ISerializable interface
 
 The ISerializable interface can be implemented to serialize manually.
 
-.. code-block:: csharp
+.. tabs::
+    .. code-tab:: csharp
 
-    public class SerializableClass : ISerializableClass<ManualSerializeClass> {
-        public int Number = 0;
-        
-        public void Serialize(Stream s)
-        {
-            Serializer.SerializeValue(Number, s); // Generic, so type is auto-detected here
-        }
-
-        public ManualSerializeClass Deserialize(Stream s)
-        {
-            Number = Serializer.DeserializeValue<int>(s); // Generic, type is specified here
+        public class SerializableClass : ISerializableClass<ManualSerializeClass> {
+            public int Number = 0;
             
-            return this;
+            public void Serialize(Stream s)
+            {
+                Serializer.SerializeValue(Number, s); // Generic, so type is auto-detected here
+            }
+
+            public ManualSerializeClass Deserialize(Stream s)
+            {
+                Number = Serializer.DeserializeValue<int>(s); // Generic, type is specified here
+                
+                return this;
+            }
         }
-    }
 
 
 ISerializableOverride interface
@@ -50,32 +52,34 @@ Example: Making `Guid` serializable.
 
 Define the class:
 
-.. code-block:: csharp
+.. tabs::
+    .. code-tab:: csharp
 
-    public class GuidSerializeOverride : ISerializableOverride<Guid>
-    {
-        private int size = 16;
-        
-        public void Serialize(Guid target, Stream s)
+        public class GuidSerializeOverride : ISerializableOverride<Guid>
         {
-            s.Write(target.ToByteArray());
-        }
+            private int size = 16;
+            
+            public void Serialize(Guid target, Stream s)
+            {
+                s.Write(target.ToByteArray());
+            }
 
-        public Guid Deserialize(Stream s)
-        {
-            var buffer = new byte[size];
-            s.Read(buffer, 0, buffer.Length);
-            return new Guid(buffer);
+            public Guid Deserialize(Stream s)
+            {
+                var buffer = new byte[size];
+                s.Read(buffer, 0, buffer.Length);
+                return new Guid(buffer);
+            }
         }
-    }
 
 
 Register the override (pick your preferred option):
 
-.. code-block:: csharp
+.. tabs::
+    .. code-tab:: csharp
 
-    // Generic
-    Serializer.RegisterOverride<GuidSerializeOverride, Guid>();
+        // Generic
+        Serializer.RegisterOverride<GuidSerializeOverride, Guid>();
 
-    // With instance
-    Serializer.RegisterOverride(new GuidSerializeOverride());
+        // With instance
+        Serializer.RegisterOverride(new GuidSerializeOverride());
