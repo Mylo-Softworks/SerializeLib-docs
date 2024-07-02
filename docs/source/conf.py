@@ -16,6 +16,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx_tabs.tabs',
+    'sphinx.ext.autosectionlabel',
 ]
 
 sphinx_tabs_disable_tab_closing = True

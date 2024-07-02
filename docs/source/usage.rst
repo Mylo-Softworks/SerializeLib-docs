@@ -3,7 +3,7 @@ Usage
 
 .. important::
     Objects must be serializable in order to be serialized or deserialized.
-    See [serializable objects](serializable-objects) for more information.
+    See :ref:`serializable objects` for more information.
 
 
 Serializing an object
@@ -58,7 +58,7 @@ From a byte[]
 From a file
 ===========
 .. code-block:: csharp
-    
+
     using SerializeLib;
 
     var exampleObject = Serializer.DeserializeFromFile<SerializationExample>("filename.bin");
