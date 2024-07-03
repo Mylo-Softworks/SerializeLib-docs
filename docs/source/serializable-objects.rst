@@ -18,6 +18,14 @@ The attributes `[SerializeClass]` and `[SerializeField(order)]` are used to mark
             [SerializeField(1)] public string ExampleString;
         }
 
+    .. code-tab:: kotlin
+
+        @SerializeClass
+        class SerializableClass {
+            @SerializeField(0) var exampleBool: Boolean = false
+            @SerializeField(1) lateinit var exampleString: String
+        }
+
 
 ISerializable interface
 ***********************
@@ -27,7 +35,7 @@ The ISerializable interface can be implemented to serialize manually.
 .. tabs::
     .. code-tab:: csharp
 
-        public class SerializableClass : ISerializableClass<ManualSerializeClass> {
+        public class SerializableClass : ISerializableClass<SerializableClass> {
             public int Number = 0;
             
             public void Serialize(Stream s)
@@ -35,11 +43,27 @@ The ISerializable interface can be implemented to serialize manually.
                 Serializer.SerializeValue(Number, s); // Generic, so type is auto-detected here
             }
 
-            public ManualSerializeClass Deserialize(Stream s)
+            public SerializableClass Deserialize(Stream s)
             {
                 Number = Serializer.DeserializeValue<int>(s); // Generic, type is specified here
                 
                 return this;
+            }
+        }
+
+    .. code-tab:: kotlin
+
+        class ExampleSerializableClass : SerializableClass<ExampleSerializableClass> {
+            var number: Int = 0
+
+            override fun serialize(s: OutputStream) {
+                Serializer.serializeValue(number, s)
+            }
+
+            override fun deserialize(s: InputStream): ExampleSerializableClass {
+                number = Serializer.deserializeValue<Int>(s)!!
+
+                return this
             }
         }
 
@@ -72,6 +96,21 @@ Define the class:
             }
         }
 
+    .. code-tab:: kotlin
+
+        class UuidSerializeOverride : SerializableOverride<UUID> {
+            override fun serialize(target: UUID, s: OutputStream) {
+                Serializer.serializeValue(target.mostSignificantBits, s)
+                Serializer.serializeValue(target.leastSignificantBits, s)
+            }
+
+            override fun deserialize(s: InputStream): UUID {
+                val msb = Serializer.deserializeValue<Long>(s)!!
+                val lsb = Serializer.deserializeValue<Long>(s)!!
+                return UUID(msb, lsb)
+            }
+        }
+
 
 Register the override (pick your preferred option):
 
@@ -83,3 +122,11 @@ Register the override (pick your preferred option):
 
         // With instance
         Serializer.RegisterOverride(new GuidSerializeOverride());
+
+    .. code-tab:: kotlin
+
+        // Generic
+        Serializer.registerOverride<UuidSerializeOverride, UUID>()
+
+        // With instance
+        Serializer.registerOverride(UuidSerializeOverride())
