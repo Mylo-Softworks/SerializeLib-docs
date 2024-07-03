@@ -6,7 +6,7 @@ There are three ways to define a class as serializable. The `[SerializeClass]` a
 Attributes
 **********
 
-The attributes `[SerializeClass]` and `[SerializeField]` are used to mark fields and classes as serializable. Automatic serialization will be attempted.
+The attributes `[SerializeClass]` and `[SerializeField(order)]` are used to mark fields and classes as serializable. Automatic serialization will be attempted.
 
 .. tabs::
     .. code-tab:: csharp
@@ -14,8 +14,8 @@ The attributes `[SerializeClass]` and `[SerializeField]` are used to mark fields
         [SerializeClass]
         public class SerializableClass
         {
-            [SerializeField] public bool ExampleBool;
-            [SerializeField] public string ExampleString;
+            [SerializeField(0)] public bool ExampleBool;
+            [SerializeField(1)] public string ExampleString;
         }
 
 
