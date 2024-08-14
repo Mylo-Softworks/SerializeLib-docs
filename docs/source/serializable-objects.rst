@@ -27,10 +27,10 @@ The attributes `[SerializeClass]` and `[SerializeField(order)]` are used to mark
         }
 
 
-ISerializable interface
+SerializableClass interface
 ***********************
 
-The ISerializable interface can be implemented to serialize manually.
+The SerializableClass interface can be implemented to serialize manually.
 
 .. tabs::
     .. code-tab:: csharp
